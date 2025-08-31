@@ -1,0 +1,12 @@
+{
+  "name": "Barber Offline",
+  "short_name": "Barber",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b0f12",
+  "theme_color": "#0ea5e9",
+  "icons": [
+    { "src": "./icono.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "./icono.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

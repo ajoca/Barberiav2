@@ -1,0 +1,101 @@
+/* Tailwind base */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =============================
+   Paleta minimal + accesible
+   (auto light/dark por sistema)
+   ============================= */
+:root {
+  color-scheme: light dark;
+  /* ---- Light ---- */
+  --background: 210 20% 98%;
+  --foreground: 222 47% 11%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+
+  /* Primario teal: sobrio y moderno */
+  --primary: 172 66% 45%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 210 16% 96%;
+  --secondary-foreground: 222 47% 20%;
+
+  --muted: 210 16% 96%;
+  --muted-foreground: 215 16% 45%;
+
+  --accent: 210 20% 94%;
+  --accent-foreground: 222 47% 20%;
+
+  --border: 214 17% 90%;
+  --ring: 172 66% 45%;
+  --radius: 16px;
+}
+
+/* ---- Dark overrides ---- */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: 222 47% 7%;
+    --foreground: 210 40% 96%;
+
+    --card: 222 47% 9%;
+    --card-foreground: 210 40% 96%;
+
+    --primary: 172 66% 45%;
+    --primary-foreground: 222 47% 7%;
+
+    --secondary: 222 47% 12%;
+    --secondary-foreground: 210 40% 96%;
+
+    --muted: 222 47% 14%;
+    --muted-foreground: 215 20% 70%;
+
+    --accent: 222 47% 11%;
+    --accent-foreground: 210 40% 96%;
+
+    --border: 215 25% 26%;
+    --ring: 172 66% 45%;
+  }
+}
+
+/* Más contraste si el SO lo pide */
+@media (prefers-contrast: more) {
+  :root { --border: 215 25% 22%; }
+}
+
+/* Fondo y texto base */
+html, body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+/* ========== Helpers ========== */
+.card {
+  @apply rounded-2xl border border-border/60 bg-card shadow-[0_8px_24px_-12px_rgb(0_0_0_/_0.25)];
+}
+.shadow-glow { box-shadow: 0 0 0 1px hsl(var(--ring)/0.28), 0 10px 30px -10px hsl(var(--ring)/0.24); }
+
+/* Botones minimal */
+.btn { @apply inline-flex items-center gap-2 rounded-lg px-3.5 py-2 text-sm font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/90; }
+.btn-primary { @apply btn bg-primary text-primary-foreground hover:opacity-90 shadow-glow; }
+.btn-ghost { @apply btn border border-border/70 bg-transparent text-foreground/80 hover:bg-accent; }
+.btn-danger { @apply btn bg-red-600 text-white hover:bg-red-500; }
+
+/* Inputs minimal */
+.input {
+  @apply w-full rounded-xl border border-border bg-white text-[hsl(var(--foreground))] px-3 py-2 text-sm shadow-sm
+         placeholder:text-muted-foreground/70
+         focus:outline-none focus:ring-2 focus:ring-ring/90 focus:border-ring/90
+         dark:bg-[hsl(222_47%_9%)] dark:text-[hsl(210_40%_96%)];
+}
+
+/* WeekView limpio */
+/* WeekView limpio */
+.week-view .day-header { @apply text-xs sm:text-sm font-semibold text-foreground/90 text-center border-b border-border/60 pb-2; }
+.week-view .today-col { @apply bg-primary/10; }
+.week-view .grid-bg { @apply bg-[linear-gradient(to_bottom,rgba(0,0,0,.06)_1px,transparent_1px)] dark:bg-[linear-gradient(to_bottom,rgba(255,255,255,.06)_1px,transparent_1px)]; }
+.week-view .hour-cell { @apply border-b border-border/50 text-xs text-muted-foreground; }
+.week-view .slot { @apply hover:bg-accent/70 transition cursor-pointer rounded; }
+.week-view .event { @apply rounded-lg bg-primary/10 px-2 py-1 text-foreground border border-primary/40 shadow-glow; }
