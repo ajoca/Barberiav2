@@ -99,3 +99,54 @@ html, body {
 .week-view .hour-cell { @apply border-b border-border/50 text-xs text-muted-foreground; }
 .week-view .slot { @apply hover:bg-accent/70 transition cursor-pointer rounded; }
 .week-view .event { @apply rounded-lg bg-primary/10 px-2 py-1 text-foreground border border-primary/40 shadow-glow; }
+.card {
+  @apply transition-transform duration-200 will-change-transform;
+}
+.card:hover {
+  transform: translateY(-2px);
+}
+
+/* Botón principal con presión sutil */
+.btn-primary {
+  @apply transition-transform;
+}
+.btn-primary:active {
+  transform: translateY(1px) scale(0.99);
+}
+
+/* Inputs con feedback suave */
+.input {
+  @apply transition-shadow;
+}
+.input:focus-visible {
+  box-shadow: 0 0 0 3px hsl(var(--ring)/0.18);
+}
+
+/* Chips con animación */
+.chip { @apply px-3 py-1 rounded-full border text-sm transition-colors select-none; }
+.chip-on { @apply bg-primary text-primary-foreground border-primary; }
+.chip-off { @apply bg-transparent text-foreground/80 border-border hover:bg-accent; }
+.chip:active { transform: translateY(0.5px); }
+
+/* Barra de stats: apariciones */
+.stats-appear > * {
+  animation: slide-up .35s ease-out both;
+}
+.stats-appear > *:nth-child(2) { animation-delay: .05s; }
+.stats-appear > *:nth-child(3) { animation-delay: .1s; }
+
+/* Skeleton minimal (por si querés) */
+.skeleton {
+  @apply relative overflow-hidden bg-muted;
+}
+.skeleton::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg,
+    transparent, hsl(var(--foreground)/0.06), transparent);
+  animation: shimmer 1.2s infinite;
+}
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}

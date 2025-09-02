@@ -51,4 +51,30 @@ export default {
   ],
 
   plugins: [animate],
+  // tailwind.config.ts (agrega dentro de theme.extend)
+extend: {
+  // …tu extend actual
+  keyframes: {
+    'fade-in': { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+    'scale-in': {
+      '0%': { opacity: '0', transform: 'scale(0.96)' },
+      '100%': { opacity: '1', transform: 'scale(1)' },
+    },
+    'slide-up': {
+      '0%': { opacity: '0', transform: 'translateY(8px)' },
+      '100%': { opacity: '1', transform: 'translateY(0)' },
+    },
+    'soft-pulse': {
+      '0%, 100%': { boxShadow: '0 0 0 0 hsl(var(--ring)/0.0)' },
+      '50%': { boxShadow: '0 0 0 6px hsl(var(--ring)/0.08)' },
+    },
+  },
+  animation: {
+    'fade-in': 'fade-in .35s ease-out both',
+    'scale-in': 'scale-in .28s ease-out both',
+    'slide-up': 'slide-up .35s ease-out both',
+    'soft-pulse': 'soft-pulse 2.4s ease-in-out infinite',
+  },
+}
+
 } satisfies Config;
