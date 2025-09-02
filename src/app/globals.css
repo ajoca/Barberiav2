@@ -34,30 +34,27 @@
   --radius: 16px;
 }
 
-/* ---- Dark overrides ---- */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: 222 47% 7%;
-    --foreground: 210 40% 96%;
+.dark {
+  --background: 222 47% 7%;
+  --foreground: 210 40% 96%;
 
-    --card: 222 47% 9%;
-    --card-foreground: 210 40% 96%;
+  --card: 222 47% 9%;
+  --card-foreground: 210 40% 96%;
 
-    --primary: 172 66% 45%;
-    --primary-foreground: 222 47% 7%;
+  --primary: 172 66% 45%;
+  --primary-foreground: 222 47% 7%;
 
-    --secondary: 222 47% 12%;
-    --secondary-foreground: 210 40% 96%;
+  --secondary: 222 47% 12%;
+  --secondary-foreground: 210 40% 96%;
 
-    --muted: 222 47% 14%;
-    --muted-foreground: 215 20% 70%;
+  --muted: 222 47% 14%;
+  --muted-foreground: 215 20% 70%;
 
-    --accent: 222 47% 11%;
-    --accent-foreground: 210 40% 96%;
+  --accent: 222 47% 11%;
+  --accent-foreground: 210 40% 96%;
 
-    --border: 215 25% 26%;
-    --ring: 172 66% 45%;
-  }
+  --border: 215 25% 26%;
+  --ring: 172 66% 45%;
 }
 
 /* Más contraste si el SO lo pide */
