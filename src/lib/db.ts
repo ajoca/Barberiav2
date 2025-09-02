@@ -1,5 +1,6 @@
 import Dexie, { Table } from 'dexie';
 
+
 export interface Client {
   id: string;
   name: string;

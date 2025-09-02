@@ -33,11 +33,11 @@ export default function AppointmentForm({
   const [services, setServices] = useState<Service[]>([]);
   const [serviceId, setServiceId] = useState<string>('');
 
-  /* clases reutilizables */
-  const inputCls = "input mt-1";
-  const chipBase = "px-3 py-1 rounded-full border text-sm transition-colors select-none";
-  const chipActive = "bg-primary text-primary-foreground border-primary hover:opacity-90";
-  const chipInactive = "bg-transparent text-foreground/80 border-border hover:bg-accent";
+  /* clases reutilizables (coinciden con tu globals.css) */
+  const inputCls = 'input mt-1';
+  const chipBase = 'px-3 py-1 rounded-full border text-sm transition-colors select-none';
+  const chipActive = 'bg-primary text-primary-foreground border-primary hover:opacity-90';
+  const chipInactive = 'bg-transparent text-foreground/80 border-border hover:bg-accent';
 
   const days = [
     { label: 'L', value: 0 }, { label: 'M', value: 1 }, { label: 'X', value: 2 },
@@ -124,12 +124,14 @@ export default function AppointmentForm({
     <div className="fixed inset-0 z-50 grid place-items-center p-4 bg-black/60 backdrop-blur-sm">
       <form
         onSubmit={handleSubmit}
-        className="w-[min(92vw,40rem)] overflow-hidden rounded-2xl border border-border/60
-                   bg-card/95 backdrop-blur-md shadow-2xl"
+        className="w-[min(92vw,40rem)] overflow-hidden card"
+        /* card = bg-card + border + sombra desde tu globals.css */
       >
         {/* Header */}
         <div className="flex items-center justify-between gap-3 p-4 border-b border-border/60">
-          <h2 className="text-lg font-semibold text-foreground">{editingBaseId ? 'Editar turno' : 'Nuevo turno'}</h2>
+          <h2 className="text-lg font-semibold text-foreground">
+            {editingBaseId ? 'Editar turno' : 'Nuevo turno'}
+          </h2>
           {editingBaseId && (
             <button
               type="button"
@@ -167,11 +169,11 @@ export default function AppointmentForm({
             <select
               value={serviceId}
               onChange={(e) => setServiceId(e.target.value)}
-              className={inputCls}
+              className={`${inputCls} appearance-none`}
             >
               <option value="">Seleccioná un servicio...</option>
               {services.map((s) => (
-                <option key={s.id} value={s.id} className="text-black">
+                <option key={s.id} value={s.id}>
                   {s.name} — {s.price}$
                 </option>
               ))}
