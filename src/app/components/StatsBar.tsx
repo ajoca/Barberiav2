@@ -4,13 +4,20 @@ import { DateTime } from 'luxon';
 import { getOccurrences } from '@/lib/schedule';
 import { motion } from 'framer-motion';
 
+/** ISO “local” sin offset ni milisegundos — evita que se corra a ayer/mañana por zona horaria */
+const toLocalISO = (d: DateTime) =>
+  d.setZone('local').toISO({ suppressMilliseconds: true, includeOffset: false })!;
+
 function useCountUp(target: number, deps: unknown[] = [], ms = 450) {
   const [val, setVal] = useState(0);
   useEffect(() => {
-    let raf: number; const start = performance.now(); const from = val; const to = target;
+    let raf: number;
+    const start = performance.now();
+    const from = val;
+    const to = target;
     const tick = (t: number) => {
       const p = Math.min(1, (t - start) / ms);
-      const eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
+      const eased = 1 - Math.pow(1 - p, 3);
       setVal(Math.round(from + (to - from) * eased));
       if (p < 1) raf = requestAnimationFrame(tick);
     };
@@ -26,16 +33,29 @@ export default function StatsBar({ refreshKey = 0 }: { refreshKey?: number }) {
 
   useEffect(() => {
     (async () => {
-      const now = DateTime.now();
-      const t = await getOccurrences(now.startOf('day').toISO()!, now.endOf('day').toISO()!);
-      const w = await getOccurrences(now.startOf('week').toISO()!, now.endOf('week').toISO()!);
-      const m = await getOccurrences(now.startOf('month').toISO()!, now.endOf('month').toISO()!);
+      const now = DateTime.local();
+
+      const t = await getOccurrences(
+        toLocalISO(now.startOf('day')),
+        toLocalISO(now.endOf('day')),
+      );
+
+      const w = await getOccurrences(
+        toLocalISO(now.startOf('week')),
+        toLocalISO(now.endOf('week')),
+      );
+
+      const m = await getOccurrences(
+        toLocalISO(now.startOf('month')),
+        toLocalISO(now.endOf('month')),
+      );
+
       setRaw({ today: t.length, week: w.length, month: m.length });
     })();
   }, [refreshKey]);
 
   const today = useCountUp(raw.today, [raw.today]);
-  const week  = useCountUp(raw.week,  [raw.week]);
+  const week = useCountUp(raw.week, [raw.week]);
   const month = useCountUp(raw.month, [raw.month]);
 
   const StatCard = ({
@@ -65,20 +85,35 @@ export default function StatsBar({ refreshKey = 0 }: { refreshKey?: number }) {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 stats-appear">
-      <StatCard label="Turnos hoy" value={today} d={0.0}
-        icon={<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden>
-          <path d="M7 2v3M17 2v3M3 8h18M4 6h16a1 1 0 011 1v12a2 2 0 01-2 2H5a2 2 0 01-2-2V7a1 1 0 011-1z" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"/>
-        </svg>}
+      <StatCard
+        label="Turnos hoy"
+        value={today}
+        d={0.0}
+        icon={
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden>
+            <path d="M7 2v3M17 2v3M3 8h18M4 6h16a1 1 0 011 1v12a2 2 0 01-2 2H5a2 2 0 01-2-2V7a1 1 0 011-1z" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"/>
+          </svg>
+        }
       />
-      <StatCard label="Turnos esta semana" value={week} d={0.05}
-        icon={<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden>
-          <path d="M4 5h16M4 10h16M4 15h10" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"/>
-        </svg>}
+      <StatCard
+        label="Turnos esta semana"
+        value={week}
+        d={0.05}
+        icon={
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden>
+            <path d="M4 5h16M4 10h16M4 15h10" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"/>
+          </svg>
+        }
       />
-      <StatCard label="Turnos este mes" value={month} d={0.1}
-        icon={<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden>
-          <path d="M7 3v3m10-3v3M4 8h16M5 6h14a1 1 0 011 1v12a2 2 0 01-2 2H6a2 2 0 01-2-2V7a1 1 0 011-1z" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"/>
-        </svg>}
+      <StatCard
+        label="Turnos este mes"
+        value={month}
+        d={0.1}
+        icon={
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden>
+            <path d="M7 3v3m10-3v3M4 8h16M5 6h14a1 1 0 011 1v12a2 2 0 01-2 2H6a2 2 0 01-2-2V7a1 1 0 011-1z" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"/>
+          </svg>
+        }
       />
     </div>
   );
